@@ -1,29 +1,35 @@
-# task.py
-import json
+# commands.py
 
-TASK_PATH = './tasks.json'
-ENCODING = 'utf-8'
-
-
-def read_json(): # クラスじゃないからself入らない
-    '''jsonファイルからデータを読み取って、辞書を返す
+def todo_list(lists):
+    '''引数としてlistを受け取ったときの処理
     '''
-    with open(TASK_PATH,encoding=ENCODING) as f:
-        data = json.load(f)
-        
-    return data['tasks']
+    print('# Todo')
+    for task in lists:
+        if task['done'] == False:
+            print(task['body'])
+    
+    print('\n# Done')
+    for task in lists:
+        if task['done'] == True:
+            print(task['body'])
+            
+def todo_add(lists, task_name):
+    lists.append({'body': task_name, 'done': False})
 
-def write_json(lists):
-    '''ToDoリストの辞書listsをjsonファイルに書き込む
-    '''
-    data = {}
-    with open(TASK_PATH, mode='w', encoding=ENCODING) as f:
-        data['tasks'] = lists
-        json.dump(data, f, ensure_ascii=False)
 
-class Task:
-    '''タスク（ToDoリストではない）
-    '''
-    def __init__(self, body, done):
-        self.body = body
-        self.done = False
+def todo_done(lists, task_name):
+    # タスクがないときは例外処理
+    for task in lists:
+        if task_name in task['body']:
+            task['done'] = True
+
+
+def todo_clear(lists):
+    chg_lists = lists
+    rmv = []
+    for task in lists:
+        if task['done'] == True:
+            rmv.append(task)
+    for task in rmv:
+        lists.remove(task)
+            
