@@ -1,18 +1,13 @@
-# -*- coding: utf-8 -*-
 import scrapy
-from tutorial.items import TutorialItem
 
 
-class QuotesSpider(scrapy.Spider):
+class SimpleSpider(scrapy.Spider):
     name = 'quotes'
-    allowed_domains = ['quotes.toscrape.com']
-    start_urls = ['http://quotes.toscrape.com/']
+    allowed_domains = ['www.jalan.net']
+    start_urls = [
+        'https://www.jalan.net/kankou/130000/page_1/?screenId=OUW1701&influxKbn=0']
 
     def parse(self, response):
-        for quote in response.css('div.quote'):
-            item = TutorialItem()
-            author = item['author'] = quote.css(
-                'small.author::text').extract_first()
-            item['text'] = quote.css('span.text::text').extract_first()
-            item['tags'] = quote.css('div.tags a.tag::text').extract()
-            yield(item)
+        names = response.xpath(
+            '//ul//li///div[@class="item-listContents"]//p/a/text()').extract()
+        print(names)

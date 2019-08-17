@@ -8,8 +8,6 @@ class SimpleSpider(scrapy.Spider):
         'https://www.jalan.net/kankou/130000/page_1/?screenId=OUW1701&influxKbn=0']
 
     def parse(self, response):
-        items = []
-        cassetteList = response.css('ul.cassetteType')[0]
-        item = cassetteList.css('li.item::text').extract_first()
-        rating = item.css('span.reviewPoint::text').extract_first()
-        print(rating)
+        names = response.xpath(
+            '//ul//li///div[@class="item-listContents"]//p/a/text()').extract()
+        print(names)
