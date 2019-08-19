@@ -1,0 +1,10 @@
+{% extends 'polls/base.html' %} {% block title %} 質問追加 {% endblock %}
+{%block content %}
+<h1>質問を追加してください</h1>
+<form action="{% url 'polls:add' %}" method="post">
+  {% csrf_token %}
+  {{ form.as_p }}
+  <input type="submit" value="追加" />
+</form>
+
+{% endblock %}
